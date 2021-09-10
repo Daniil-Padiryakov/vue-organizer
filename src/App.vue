@@ -23,8 +23,8 @@
 
         <div class="calendar__month">
 
-            <div v-for="day in testDays" class="calendar__month-day">
-                {{day}}
+            <div v-for="day in testDays.days" class="calendar__month-day">
+                {{day.day}}
             </div>
 
         </div>
@@ -55,42 +55,73 @@
                 return this.createResultArr(year, month)
             },
             createResultArr(year, month) {
-                let arr = []
+                let obj = this.createObjOfMonth(year, month)
                 let fromNum = 1
                 let toNum = this.getLastDay(year, month)
 
                 let shiftElemsNum = this.getUnshiftElemsNum(year, month)
                 let popElemsNum = this.getPushElemsNum(year, month)
 
-                arr = this.createArrOfDays(fromNum, toNum)
-                arr = this.shiftElems(shiftElemsNum, arr)
-                arr = this.popElems(popElemsNum, arr)
+                obj = this.createArrOfDays(fromNum, toNum, obj)
+                console.log(obj)
+                obj = this.shiftElems(shiftElemsNum, obj)
+                obj = this.popElems(popElemsNum, obj)
 
-                return arr
+                return obj
             },
 
-            createArrOfDays(fromNum, toNum) {
-                let arr = [];
+            createObjOfMonth(year, month) {
+                return {
+                    year: year,
+                    month: month,
+                    days: []
+                }
+            },
+
+            createArrOfDays(fromNum, toNum, objOfMonth) {
+
+                // let a = {
+                //     year: 2021,
+                //     month: 10,
+                //     days: [
+                //         {
+                //             day: 1,
+                //             todos: [
+                //                 {
+                //                     id: 0,
+                //                     text: 'qwe',
+                //                     completed: false,
+                //                     isEdited: false,
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
                 for (var i = fromNum; i <= toNum; i++) {
-                    arr.push(i);
+                    let obj = {
+                        day: i,
+                        todos: [],
+                    };
+                    objOfMonth.days.push(obj)
                 }
 
-                return arr;
+                return objOfMonth;
             },
 
-            shiftElems(shiftElemsNum, arr) {
+
+            shiftElems(shiftElemsNum, obj) {
                 for (let i = 0; i < shiftElemsNum; i++) {
-                    arr.unshift('');
+                    obj.days.unshift({});
                 }
 
-                return arr;
+                return obj;
             },
-            popElems(popElemsNum, arr) {
+            popElems(popElemsNum, obj) {
                 for (let i = 0; i < popElemsNum; i++) {
-                    arr.push('');
+                    obj.days.push({});
                 }
 
-                return arr;
+                return obj;
             },
 
             getLastDay(year, month) {
@@ -138,13 +169,13 @@
                 return monthes[num];
             },
 
-            prevMonth () {
+            prevMonth() {
                 this.year = this.getPrevYear(this.year, this.month)
                 this.month = this.getPrevMonth(this.month)
 
                 this.testDays = this.initCalendar(this.year, this.month)
             },
-            nextMonth () {
+            nextMonth() {
                 this.year = this.getNextYear(this.year, this.month)
                 this.month = this.getNextMonth(this.month)
 
@@ -187,7 +218,7 @@
     }
 </script>
 
-<style >
+<style>
 
     * {
         margin: 0;
