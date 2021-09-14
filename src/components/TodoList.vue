@@ -50,8 +50,8 @@
             return {
 
                 newTodo: {
-                    id: '',
-                    text: 'asd',
+                    id: null,
+                    text: '',
                     completed: null,
                     isEdited: null,
                 },
@@ -64,11 +64,17 @@
         },
         methods: {
             addTodo() {
-                this.id = this.nextTodoId++
-                this.text = this.todoText
-                this.completed = false
-                this.isEdited = false
+                this.newTodo.id = this.nextTodoId++
+                this.newTodo.text = this.todoText
+                this.newTodo.completed = false
+                this.newTodo.isEdited = false
                 this.$emit('create', this.newTodo)
+                this.newTodo = {
+                        id: null,
+                        text: '',
+                        completed: null,
+                        isEdited: null,
+                }
                 this.resetInputs()
             },
             deleteTodo(todo, event) {
