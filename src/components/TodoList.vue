@@ -1,5 +1,6 @@
 <template>
     <div class="todo-container">
+        <h3>Todo List</h3>
         <div class="todo-list">
             <ul>
                 <li v-for="todo in todos" :key="todo.id">
@@ -107,6 +108,7 @@
         background-color: whitesmoke;
         max-width: 700px;
         margin: 0 auto;
+        text-align: center;
     }
 
     .todo-list {
@@ -154,4 +156,5 @@
     .btn-outline-danger {
         margin-left: auto;
     }
+
 </style>
